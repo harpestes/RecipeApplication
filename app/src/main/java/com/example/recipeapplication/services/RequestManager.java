@@ -8,6 +8,8 @@ import com.example.recipeapplication.R;
 import com.example.recipeapplication.listeners.RandomRecipeResponseListener;
 import com.example.recipeapplication.models.payload.RandomRecipeResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,10 +30,10 @@ public class RequestManager {
         this.context = context;
     }
 
-    public void getRandomRecipes(RandomRecipeResponseListener responseListener) {
+    public void getRandomRecipes(RandomRecipeResponseListener responseListener, List<String> includeTags, int numberOfRecipes) {
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
 
-        Call<RandomRecipeResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.API_KEY), "10");
+        Call<RandomRecipeResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.API_KEY), includeTags, numberOfRecipes + "");
 
         call.enqueue(
                 new Callback<RandomRecipeResponse>() {
@@ -64,6 +66,7 @@ public class RequestManager {
         @GET("/recipes/random")
         Call<RandomRecipeResponse> callRandomRecipe(
                 @Query("apiKey") String apiKey,
+                @Query("include-tags") List<String> includeTags,
                 @Query("number") String numberOfRecipes
         );
     }
