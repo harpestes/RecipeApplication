@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">RecipeApplication</string>
-    <string name="API_KEY">PASTE_API_KEY_HERE</string>
     <string-array name="tags">
         <item>main course</item>
         <item>side dish</item>
