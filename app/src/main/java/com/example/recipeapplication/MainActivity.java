@@ -1,5 +1,6 @@
 package com.example.recipeapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapplication.adapters.RandomRecipeAdapter;
 import com.example.recipeapplication.listeners.RandomRecipeResponseListener;
+import com.example.recipeapplication.listeners.RecipeClickListener;
 import com.example.recipeapplication.models.payload.RandomRecipeResponse;
 import com.example.recipeapplication.services.RequestManager;
 
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
-            RandomRecipeAdapter randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.getRecipes());
+            RandomRecipeAdapter randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.getRecipes(), recipeClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
         }
 
@@ -88,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
+        }
+    };
+
+    private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
+        @Override
+        public void onRecipeClicked(String id) {
+            startActivity(new Intent(MainActivity.this, RecipeDetailsActivity.class)
+                    .putExtra("recipeId", id));
         }
     };
 }

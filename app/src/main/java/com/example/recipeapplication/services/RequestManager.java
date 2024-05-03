@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.example.recipeapplication.R;
 import com.example.recipeapplication.listeners.RandomRecipeResponseListener;
+import com.example.recipeapplication.listeners.RecipeDetailsListener;
 import com.example.recipeapplication.models.payload.RandomRecipeResponse;
+import com.example.recipeapplication.models.payload.RecipeDetailsResponse;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class RequestManager {
@@ -61,6 +64,38 @@ public class RequestManager {
         );
     }
 
+    public void getRecipeDetails(RecipeDetailsListener responseListener, String id) {
+
+        CallRecipeDetails callRecipeDetails = retrofit.create(CallRecipeDetails.class);
+
+        Call<RecipeDetailsResponse> call = callRecipeDetails.callRecipeDetails(id, context.getString(R.string.API_KEY));
+
+        call.enqueue(
+                new Callback<RecipeDetailsResponse>() {
+                    @Override
+                    public void onResponse(
+                            @NonNull Call<RecipeDetailsResponse> call,
+                            @NonNull Response<RecipeDetailsResponse> response
+                    ) {
+                        if (!response.isSuccessful()) {
+                            responseListener.throwError(response.message());
+                            return;
+                        }
+
+                        responseListener.fetch(response.body(), response.message());
+                    }
+
+                    @Override
+                    public void onFailure(
+                            @NonNull Call<RecipeDetailsResponse> call,
+                            @NonNull Throwable throwable
+                    ) {
+                        responseListener.throwError(throwable.getMessage());
+                    }
+                }
+        );
+    }
+
     private interface CallRandomRecipes {
 
         @GET("/recipes/random")
@@ -68,6 +103,15 @@ public class RequestManager {
                 @Query("apiKey") String apiKey,
                 @Query("include-tags") List<String> includeTags,
                 @Query("number") String numberOfRecipes
+        );
+    }
+
+    private interface CallRecipeDetails {
+
+        @GET("/recipes/{id}/information")
+        Call<RecipeDetailsResponse> callRecipeDetails(
+                @Path("id") String id,
+                @Query("apiKey") String apiKey
         );
     }
 }
