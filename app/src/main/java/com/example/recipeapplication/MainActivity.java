@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.example.recipeapplication.models.payload.RandomRecipeResponse;
 import com.example.recipeapplication.services.RequestManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar dialog;
     private RequestManager manager;
     private final List<String> tags = new ArrayList<>();
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,23 @@ public class MainActivity extends AppCompatActivity {
 
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(spinnerSelectorListener);
+
+        searchView = findViewById(R.id.search_home);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                tags.clear();
+                tags.add(query);
+                manager.getRandomRecipes(randomRecipeResponseListener, tags, 20);
+                dialog.setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         manager = new RequestManager(this);
     }
@@ -89,7 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
+            tags.clear();
+            tags.add(parent.getSelectedItem().toString());
 
+            manager.getRandomRecipes(randomRecipeResponseListener, Collections.singletonList("main course"), 10);
+            dialog.setVisibility(View.VISIBLE);
         }
     };
 
