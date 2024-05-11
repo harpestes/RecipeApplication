@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapplication.adapters.IngredientsAdapter;
+import com.example.recipeapplication.adapters.InstructionsAdapter;
 import com.example.recipeapplication.adapters.SimilarRecipeAdapter;
+import com.example.recipeapplication.listeners.InstructionsListener;
 import com.example.recipeapplication.listeners.RecipeClickListener;
 import com.example.recipeapplication.listeners.RecipeDetailsListener;
 import com.example.recipeapplication.listeners.SimilarRecipesListener;
+import com.example.recipeapplication.models.payload.InstructionsResponse;
 import com.example.recipeapplication.models.payload.RecipeDetailsResponse;
 import com.example.recipeapplication.models.payload.SimilarRecipesResponse;
 import com.example.recipeapplication.services.RequestManager;
@@ -38,11 +41,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private ImageView imageView_recipe_image;
     private RecyclerView recyclerView_recipe_ingredients;
     private RecyclerView recyclerView_recipe_similar;
+    private RecyclerView recyclerView_recipe_instructions;
 
     private RequestManager manager;
     private ProgressBar dialog;
     private IngredientsAdapter ingredientsAdapter;
     private SimilarRecipeAdapter similarRecipeAdapter;
+    private InstructionsAdapter instructionsAdapter;
 
 
     @Override
@@ -69,6 +74,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         manager.getSimilarRecipes(similarRecipesListener, String.valueOf(recipeId));
 
+        manager.getInstructions(instructionsListener, String.valueOf(recipeId));
+
         dialog.setVisibility(View.VISIBLE);
     }
 
@@ -79,6 +86,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         imageView_recipe_image = findViewById(R.id.imageView_recipe_image);
         recyclerView_recipe_ingredients = findViewById(R.id.recyclerView_recipe_ingredients);
         recyclerView_recipe_similar = findViewById(R.id.recyclerView_recipe_similar);
+        recyclerView_recipe_instructions = findViewById(R.id.recyclerView_recipe_instructions);
 
         dialog = findViewById(R.id.progress_bar);
     }
@@ -136,4 +144,27 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
                     .putExtra("recipeId", id)
     );
+
+    private final InstructionsListener instructionsListener = new InstructionsListener() {
+        @Override
+        public void fetch(List<InstructionsResponse> response, String message) {
+            recyclerView_recipe_instructions.setHasFixedSize(true);
+            recyclerView_recipe_instructions.setLayoutManager(
+                    new LinearLayoutManager(
+                            RecipeDetailsActivity.this,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                    )
+            );
+
+            instructionsAdapter = new InstructionsAdapter(RecipeDetailsActivity.this, response);
+
+            recyclerView_recipe_instructions.setAdapter(instructionsAdapter);
+        }
+
+        @Override
+        public void throwError(String message) {
+            Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
 }

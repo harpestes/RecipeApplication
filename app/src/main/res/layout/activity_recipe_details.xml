@@ -71,11 +71,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:maxLines="5"
                 android:padding="8dp"
                 android:text="Summary"
                 android:textColor="@color/orange"
                 android:textSize="14sp"
                 android:textStyle="normal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_recipe_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -89,9 +96,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_recipe_similar"
-                android:layout_margin="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
