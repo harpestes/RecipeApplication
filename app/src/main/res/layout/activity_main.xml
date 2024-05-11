@@ -12,7 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:indeterminateDrawable="@drawable/rotating_progress"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +36,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/group_7"
+                android:src="@drawable/application_name"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
                 android:layout_toStartOf="@id/spinner_tags" />
