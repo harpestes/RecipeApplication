@@ -8,9 +8,11 @@ import com.example.recipeapplication.R;
 import com.example.recipeapplication.listeners.InstructionsListener;
 import com.example.recipeapplication.listeners.RandomRecipeResponseListener;
 import com.example.recipeapplication.listeners.RecipeDetailsListener;
+import com.example.recipeapplication.listeners.SimilarRecipesListener;
 import com.example.recipeapplication.models.payload.InstructionsResponse;
 import com.example.recipeapplication.models.payload.RandomRecipeResponse;
 import com.example.recipeapplication.models.payload.RecipeDetailsResponse;
+import com.example.recipeapplication.models.payload.SimilarRecipesResponse;
 
 import java.util.List;
 
@@ -98,6 +100,37 @@ public class RequestManager {
         );
     }
 
+    public void getSimilarRecipes(SimilarRecipesListener responseListener, String id) {
+        CallSimilarRecipes callSimilarRecipes = retrofit.create(CallSimilarRecipes.class);
+
+        Call<List<SimilarRecipesResponse>> call = callSimilarRecipes.callSimilarRecipes(id, context.getString(R.string.API_KEY), "5");
+
+        call.enqueue(
+                new Callback<List<SimilarRecipesResponse>>() {
+                    @Override
+                    public void onResponse(
+                            @NonNull Call<List<SimilarRecipesResponse>> call,
+                            @NonNull Response<List<SimilarRecipesResponse>> response
+                    ) {
+                        if (!response.isSuccessful()) {
+                            responseListener.throwError(response.message());
+                            return;
+                        }
+
+                        responseListener.fetch(response.body(), response.message());
+                    }
+
+                    @Override
+                    public void onFailure(
+                            @NonNull Call<List<SimilarRecipesResponse>> call,
+                            @NonNull Throwable throwable
+                    ) {
+                        responseListener.throwError(throwable.getMessage());
+                    }
+                }
+        );
+    }
+
     public void getInstructions(InstructionsListener responseListener, String id) {
         CallInstructions callInstructions = retrofit.create(CallInstructions.class);
 
@@ -145,6 +178,16 @@ public class RequestManager {
         Call<RecipeDetailsResponse> callRecipeDetails(
                 @Path("id") String id,
                 @Query("apiKey") String apiKey
+        );
+    }
+
+    private interface CallSimilarRecipes {
+
+        @GET("recipes/{id}/similar")
+        Call<List<SimilarRecipesResponse>> callSimilarRecipes(
+                @Path("id") String id,
+                @Query("apiKey") String apiKey,
+                @Query("number") String numberOfRecipes
         );
     }
 
