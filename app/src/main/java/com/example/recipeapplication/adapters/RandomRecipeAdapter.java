@@ -2,7 +2,6 @@ package com.example.recipeapplication.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -44,12 +43,10 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
         holder.getTextView_time().setText(String.format(Locale.getDefault(), "%d Minutes", list.get(position).getReadyInMinutes()));
         Picasso.get().load(list.get(position).getImage()).into(holder.getImageView_food());
 
-        holder.getRandom_list_container().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onRecipeClicked(String.valueOf(list.get(holder.getAdapterPosition()).getId()));
-            }
-        });
+        holder.getRandom_list_container().setOnClickListener(v -> listener.onRecipeClicked(
+                        String.valueOf(list.get(holder.getAdapterPosition()).getId())
+                )
+        );
     }
 
     @Override

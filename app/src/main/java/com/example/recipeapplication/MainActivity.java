@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                dialog.setVisibility(View.VISIBLE);
                 tags.clear();
                 tags.add(query);
                 manager.getRandomRecipes(randomRecipeResponseListener, tags, 20);
-                dialog.setVisibility(View.VISIBLE);
                 return false;
             }
 
@@ -100,28 +100,29 @@ public class MainActivity extends AppCompatActivity {
     private final AdapterView.OnItemSelectedListener spinnerSelectorListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            dialog.setVisibility(View.VISIBLE);
+            searchView.setQuery("", false);
+            searchView.clearFocus();
             tags.clear();
             tags.add(parent.getSelectedItem().toString());
 
             manager.getRandomRecipes(randomRecipeResponseListener, tags, 10);
-            dialog.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
+            dialog.setVisibility(View.VISIBLE);
+            searchView.setQuery("", false);
+            searchView.clearFocus();
             tags.clear();
             tags.add(parent.getSelectedItem().toString());
 
             manager.getRandomRecipes(randomRecipeResponseListener, Collections.singletonList("main course"), 10);
-            dialog.setVisibility(View.VISIBLE);
         }
     };
 
-    private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
-        @Override
-        public void onRecipeClicked(String id) {
-            startActivity(new Intent(MainActivity.this, RecipeDetailsActivity.class)
-                    .putExtra("recipeId", id));
-        }
-    };
+    private final RecipeClickListener recipeClickListener = id -> startActivity(
+            new Intent(MainActivity.this, RecipeDetailsActivity.class)
+                    .putExtra("recipeId", id)
+    );
 }
