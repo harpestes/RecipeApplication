@@ -5,8 +5,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.example.recipeapplication.R;
+import com.example.recipeapplication.listeners.InstructionsListener;
 import com.example.recipeapplication.listeners.RandomRecipeResponseListener;
 import com.example.recipeapplication.listeners.RecipeDetailsListener;
+import com.example.recipeapplication.models.payload.InstructionsResponse;
 import com.example.recipeapplication.models.payload.RandomRecipeResponse;
 import com.example.recipeapplication.models.payload.RecipeDetailsResponse;
 
@@ -96,6 +98,37 @@ public class RequestManager {
         );
     }
 
+    public void getInstructions(InstructionsListener responseListener, String id) {
+        CallInstructions callInstructions = retrofit.create(CallInstructions.class);
+
+        Call<InstructionsResponse> call = callInstructions.callInstructions(id, context.getString(R.string.API_KEY));
+
+        call.enqueue(
+                new Callback<InstructionsResponse>() {
+                    @Override
+                    public void onResponse(
+                            @NonNull Call<InstructionsResponse> call,
+                            @NonNull Response<InstructionsResponse> response
+                    ) {
+                        if (!response.isSuccessful()) {
+                            responseListener.throwError(response.message());
+                            return;
+                        }
+
+                        responseListener.fetch(response.body(), response.message());
+                    }
+
+                    @Override
+                    public void onFailure(
+                            @NonNull Call<InstructionsResponse> call,
+                            @NonNull Throwable throwable
+                    ) {
+                        responseListener.throwError(throwable.getMessage());
+                    }
+                }
+        );
+    }
+
     private interface CallRandomRecipes {
 
         @GET("/recipes/random")
@@ -110,6 +143,15 @@ public class RequestManager {
 
         @GET("/recipes/{id}/information")
         Call<RecipeDetailsResponse> callRecipeDetails(
+                @Path("id") String id,
+                @Query("apiKey") String apiKey
+        );
+    }
+
+    private interface CallInstructions {
+
+        @GET("/recipes/{id}/analyzedInstructions")
+        Call<InstructionsResponse> callInstructions(
                 @Path("id") String id,
                 @Query("apiKey") String apiKey
         );
