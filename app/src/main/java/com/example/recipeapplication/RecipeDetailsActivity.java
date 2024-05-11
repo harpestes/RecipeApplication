@@ -1,5 +1,6 @@
 package com.example.recipeapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,11 +17,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapplication.adapters.IngredientsAdapter;
+import com.example.recipeapplication.adapters.SimilarRecipeAdapter;
+import com.example.recipeapplication.listeners.RecipeClickListener;
 import com.example.recipeapplication.listeners.RecipeDetailsListener;
+import com.example.recipeapplication.listeners.SimilarRecipesListener;
 import com.example.recipeapplication.models.payload.RecipeDetailsResponse;
+import com.example.recipeapplication.models.payload.SimilarRecipesResponse;
 import com.example.recipeapplication.services.RequestManager;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
@@ -31,10 +37,12 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView textView_recipe_summary;
     private ImageView imageView_recipe_image;
     private RecyclerView recyclerView_recipe_ingredients;
+    private RecyclerView recyclerView_recipe_similar;
 
     private RequestManager manager;
     private ProgressBar dialog;
     private IngredientsAdapter ingredientsAdapter;
+    private SimilarRecipeAdapter similarRecipeAdapter;
 
 
     @Override
@@ -58,6 +66,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         manager = new RequestManager(this);
         manager.getRecipeDetails(recipeDetailsListener, String.valueOf(recipeId));
+
+        manager.getSimilarRecipes(similarRecipesListener, String.valueOf(recipeId));
+
         dialog.setVisibility(View.VISIBLE);
     }
 
@@ -67,6 +78,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         textView_recipe_summary = findViewById(R.id.textView_recipe_summary);
         imageView_recipe_image = findViewById(R.id.imageView_recipe_image);
         recyclerView_recipe_ingredients = findViewById(R.id.recyclerView_recipe_ingredients);
+        recyclerView_recipe_similar = findViewById(R.id.recyclerView_recipe_similar);
 
         dialog = findViewById(R.id.progress_bar);
     }
@@ -97,4 +109,31 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
+
+    private final SimilarRecipesListener similarRecipesListener = new SimilarRecipesListener() {
+        @Override
+        public void fetch(List<SimilarRecipesResponse> response, String message) {
+            recyclerView_recipe_similar.setHasFixedSize(true);
+            recyclerView_recipe_similar.setLayoutManager(new LinearLayoutManager(
+                            RecipeDetailsActivity.this,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                    )
+            );
+
+            similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response, recipeClickListener);
+
+            recyclerView_recipe_similar.setAdapter(similarRecipeAdapter);
+        }
+
+        @Override
+        public void throwError(String message) {
+            Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private final RecipeClickListener recipeClickListener = id -> startActivity(
+            new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
+                    .putExtra("recipeId", id)
+    );
 }

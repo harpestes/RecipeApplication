@@ -82,6 +82,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:text="Similar Recipes"
+                android:textColor="@color/orange"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_recipe_similar"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
                 android:text="Ingredients"
                 android:textColor="@color/orange"
                 android:textSize="18sp"
