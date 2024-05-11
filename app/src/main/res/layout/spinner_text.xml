@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:textAlignment="viewEnd"
-    android:textColor="@color/orange"
+    android:textColor="@color/blue"
     android:textSize="18sp">
 
 </CheckedTextView>

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:title="Details"
-        android:titleTextColor="@color/orange" />
+        android:titleTextColor="@color/blue" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Recipe name"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Source"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -74,7 +74,7 @@
                 android:maxLines="5"
                 android:padding="8dp"
                 android:text="Summary"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -90,7 +90,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Similar Recipes"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -106,7 +106,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Ingredients"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

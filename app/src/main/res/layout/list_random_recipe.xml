@@ -22,7 +22,7 @@
             android:padding="8dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textColor="@color/orange"
+            android:textColor="@color/blue"
             android:textSize="22sp"
             android:textStyle="bold" />
 

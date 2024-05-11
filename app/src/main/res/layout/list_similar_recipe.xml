@@ -26,7 +26,7 @@
             android:singleLine="true"
             android:text="Similar Name"
             android:textAlignment="center"
-            android:textColor="@color/orange" />
+            android:textColor="@color/blue" />
 
         <ImageView
             android:id="@+id/imageView_similar"
@@ -45,7 +45,7 @@
             android:singleLine="true"
             android:text="Similar servings"
             android:textAlignment="center"
-            android:textColor="@color/orange"
+            android:textColor="@color/blue"
             android:textStyle="italic" />
 
     </LinearLayout>

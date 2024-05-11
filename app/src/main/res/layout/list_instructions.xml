@@ -19,7 +19,7 @@
             android:padding="8dp"
             android:text="Instruction name"
             android:textAlignment="center"
-            android:textColor="@color/orange"
+            android:textColor="@color/blue"
             android:textSize="18sp"
             android:textStyle="bold" />
 

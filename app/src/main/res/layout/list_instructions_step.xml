@@ -24,7 +24,7 @@
                 android:padding="8dp"
                 android:text="1"
                 android:textAlignment="center"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
                 android:padding="8dp"
                 android:text="Step Title"
                 android:textAlignment="textStart"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:padding="8dp"
                 android:text="Equipments"
                 android:textAlignment="textStart"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -74,7 +74,7 @@
                 android:padding="8dp"
                 android:text="Ingredients"
                 android:textAlignment="textStart"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

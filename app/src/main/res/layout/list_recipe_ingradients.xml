@@ -23,7 +23,7 @@
             android:singleLine="true"
             android:text="1 pc"
             android:textAlignment="center"
-            android:textColor="@color/orange"
+            android:textColor="@color/blue"
             android:textSize="16sp" />
 
         <ImageView
@@ -43,7 +43,7 @@
             android:singleLine="true"
             android:text="Chicken"
             android:textAlignment="center"
-            android:textColor="@color/orange"
+            android:textColor="@color/blue"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
