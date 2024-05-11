@@ -134,14 +134,14 @@ public class RequestManager {
     public void getInstructions(InstructionsListener responseListener, String id) {
         CallInstructions callInstructions = retrofit.create(CallInstructions.class);
 
-        Call<InstructionsResponse> call = callInstructions.callInstructions(id, context.getString(R.string.API_KEY));
+        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, context.getString(R.string.API_KEY));
 
         call.enqueue(
-                new Callback<InstructionsResponse>() {
+                new Callback<List<InstructionsResponse>>() {
                     @Override
                     public void onResponse(
-                            @NonNull Call<InstructionsResponse> call,
-                            @NonNull Response<InstructionsResponse> response
+                            @NonNull Call<List<InstructionsResponse>> call,
+                            @NonNull Response<List<InstructionsResponse>> response
                     ) {
                         if (!response.isSuccessful()) {
                             responseListener.throwError(response.message());
@@ -153,7 +153,7 @@ public class RequestManager {
 
                     @Override
                     public void onFailure(
-                            @NonNull Call<InstructionsResponse> call,
+                            @NonNull Call<List<InstructionsResponse>> call,
                             @NonNull Throwable throwable
                     ) {
                         responseListener.throwError(throwable.getMessage());
@@ -194,7 +194,7 @@ public class RequestManager {
     private interface CallInstructions {
 
         @GET("/recipes/{id}/analyzedInstructions")
-        Call<InstructionsResponse> callInstructions(
+        Call<List<InstructionsResponse>> callInstructions(
                 @Path("id") String id,
                 @Query("apiKey") String apiKey
         );
