@@ -30,7 +30,7 @@
             android:id="@+id/imageView_ingredients"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:scaleType="center" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/textView_ingredients_name"
@@ -43,7 +43,7 @@
             android:singleLine="true"
             android:text="Chicken"
             android:textAlignment="center"
-            android:textColor="@color/blue"
+            android:textColor="@color/azure"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>

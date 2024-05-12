@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Source"
-                android:textColor="@color/blue"
+                android:textColor="@color/azure"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -73,7 +73,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:maxLines="5"
                 android:padding="8dp"
                 android:text="Summary"
                 android:textColor="@color/blue"
