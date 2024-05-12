@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.text.HtmlCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -98,7 +99,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
             textView_recipe_name.setText(response.getTitle());
             textView_recipe_source.setText(response.getSourceName());
-            textView_recipe_summary.setText(response.getSummary());
+            textView_recipe_summary.setText(HtmlCompat.fromHtml(response.getSummary(), HtmlCompat.FROM_HTML_MODE_LEGACY));
             Picasso.get().load(response.getImage()).into(imageView_recipe_image);
             recyclerView_recipe_ingredients.setHasFixedSize(true);
             recyclerView_recipe_ingredients.setLayoutManager(new LinearLayoutManager(
