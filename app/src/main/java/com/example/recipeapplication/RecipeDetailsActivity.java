@@ -36,6 +36,8 @@ import java.util.Objects;
 public class RecipeDetailsActivity extends AppCompatActivity {
 
     private int recipeId;
+    private String recipeName;
+    private String recipeImage;
     private TextView textView_recipe_name;
     private TextView textView_recipe_source;
     private TextView textView_recipe_summary;
@@ -97,9 +99,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         public void fetch(RecipeDetailsResponse response, String message) {
             dialog.setVisibility(View.GONE);
 
+            recipeName = response.getTitle();
             textView_recipe_name.setText(response.getTitle());
             textView_recipe_source.setText(response.getSourceName());
             textView_recipe_summary.setText(HtmlCompat.fromHtml(response.getSummary(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            recipeImage = response.getImage();
             Picasso.get().load(response.getImage()).into(imageView_recipe_image);
             recyclerView_recipe_ingredients.setHasFixedSize(true);
             recyclerView_recipe_ingredients.setLayoutManager(new LinearLayoutManager(
@@ -130,7 +134,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                     )
             );
 
-            similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response, recipeClickListener);
+            similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response, recipeClickListener, recipeName, recipeImage);
 
             recyclerView_recipe_similar.setAdapter(similarRecipeAdapter);
         }

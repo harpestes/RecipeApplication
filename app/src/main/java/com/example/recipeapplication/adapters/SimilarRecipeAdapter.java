@@ -3,6 +3,8 @@ package com.example.recipeapplication.adapters;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,8 @@ public class SimilarRecipeAdapter extends RecyclerView.Adapter<SimilarRecipeView
     private final Context context;
     private final List<SimilarRecipesResponse> list;
     private final RecipeClickListener listener;
+    private final String recipeName;
+    private final String recipeImage;
 
     @NonNull
     @Override
@@ -36,14 +40,21 @@ public class SimilarRecipeAdapter extends RecyclerView.Adapter<SimilarRecipeView
         holder.getTextView_similar_title().setSelected(true);
         holder.getTextView_similar_servings().setText(String.format("%s Persons", list.get(position).getServings()));
 
-        Picasso.get()
-                .load(String.format(
-                                "https://img.spoonacular.com/recipes/%s-556x370.%s",
-                                list.get(position).getId(),
-                                list.get(position).getImageType()
-                        )
-                )
-                .into(holder.getImageView_similar());
+        if(recipeName.equals(list.get(position).getTitle())) {
+            Picasso.get()
+                    .load(recipeImage)
+                    .into(holder.getImageView_similar());
+        }
+        else {
+            Picasso.get()
+                    .load(String.format(
+                                    "https://img.spoonacular.com/recipes/%s-556x370.%s",
+                                    list.get(position).getId(),
+                                    list.get(position).getImageType()
+                            )
+                    )
+                    .into(holder.getImageView_similar());
+        }
 
         holder.getSimilar_recipe_holder().setOnClickListener(
                 v -> listener.onRecipeClicked(
